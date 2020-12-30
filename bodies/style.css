@@ -1,0 +1,45 @@
+body {
+	width: 36em;
+	margin: 4em;
+}
+img {
+	display: block;
+	margin: 1em auto;
+}
+pre {
+	background-color: LightGrey;
+	margin: 1em;
+	padding: .5em;
+	overflow-x: scroll;
+	tab-size: 4;
+}
+code {
+	backgroudn-color: LightGrey;
+}
+canvas {
+	cursor: grab;
+	margin: 1em;
+	touch-action: pinch-zoom;
+}
+canvas:active {
+	cursor: grabbing;
+}
+table {
+	text-align: center;
+	border: 1pt solid black
+}
+
+#contents {
+	position: absolute;
+	left: 42em;
+	width: 8em;
+}
+#contents > h4 {
+	margin-block-start:.5em;
+	margin-block-end:.5em;
+}
+#contents > ul {
+	margin-block-start:.5em;
+	margin-block-end:.5em;
+	padding-inline-start:1.5em;
+}

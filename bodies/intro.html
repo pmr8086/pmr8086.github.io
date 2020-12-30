@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<div id="contents">
+
+<p><a href="./">Back to Main Page</a></p>
+
+<h4>Contents</h4>
+
+<ul>
+	<li><a href="intro.html">Intro</a></li>
+	<li><a href="eqs_of_mxn.html">Solving the Eqs. of Motion</a></li>
+	<li><a href="code.html">Code Documentation</a></li>
+	<li><a href="bib.html">Bibliography</a></li>
+</ul>
+
+</div>
+
+<p>Recently I was reading about 3D graphics and rigid body mechanics, and so I thought I'd code up some interactive visualizations of rigid body motion, to really tie the two together. Ultimately, I'd like to build a library to make creating these little demonstrations easy. It's not what you'd call production ready yet, but it's honest work.</p>
+
+<canvas id="canvas" draggable="true" width="480" height="480"></canvas>
+
+<table width="100%">
+	<tr>
+		<td>
+			r<sub>1</sub>
+		</td>
+		<td>
+			<input type="range" max=".5" min=".1" step=".01" value=".1199375" id="slider_r1"/>
+		</td>
+		<td>
+			&omega;<sub>01</sub>
+		</td>
+		<td>
+			<input type="range" max="20" min=".1" step=".1" value=".1" id="slider_w01"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			r<sub>2</sub>
+		</td>
+		<td>
+			<input type="range" max=".5" min=".1" step=".01" value=".2296875" id="slider_r2"/>
+		</td>
+		<td>
+			&omega;<sub>02</sub>
+		</td>
+		<td>
+			<input type="range" max="20" min=".1" step=".1" value="20" id="slider_w02"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			r<sub>3</sub>
+		</td>
+		<td>
+			<input type="range" max=".5" min=".1" step=".01" value=".4399" id="slider_r3"/>
+		</td>
+		<td>
+			&omega;<sub>03</sub>
+		</td>
+		<td>
+			<input type="range" max="20" min=".1" step=".1" value=".1" id="slider_w03"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4" style="text-align:right">
+			<input type="button" value="Restart" id="btn_restart"/>
+			<input type="button" value="Pause / Resume" id="btn_pause"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="background-color:#ff0">
+			<b>L&#x0302;</b>
+			<input type="checkbox" checked id="btn_L"/>
+		</td>
+		<td colspan="2" style="background-color:#f0f">
+			<b>&omega;&#x302;</b>
+			<input type="checkbox" checked id="btn_omega"/>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript" src="script.js"></script>
+
+<script type="text/javascript" src="panel.js"></script>
+
+<p>You can rotate the view by dragging with the mouse or touch, and translate it with Alt + drag. There's also that tweaks panel there to explore different kinds of motion (though avoid making the radii equal…), but much more customization should be possible with the console. For example:</p>
+
+<pre>
+foo = add_ellipsoid(.1, .1, .15);
+foo.transform.transl(.4, 0, 0);
+// for scale, the coordinate vectors
+// depicted have .5 units of length
+
+new_interval = setInterval(function () {
+	foo.transform.rot(5, ex);
+	// coordinate vectors are stored in
+	// constants ex, ey, ez
+}, 20);
+
+// to remove the new object
+models.splice(models.indexOf(foo), 1);
+// and stop updating its position
+clearInterval(new_interval);
+</pre>
+
+<p>About the physics now. What we have here is the so-called <i>Euler top</i>; it's the free motion analogue for rigid bodies, torque-free rotation. This is the case for example of a body moving freely (floating through empty space) or in an uniform field (falling near the surface of the Earth); in these cases the center of mass moves like a point particle, while the body pivots freely around it.</p>
+
+<p>Anyway, the most notable fact about the Euler top is the <b>tennis racket theorem</b>, which is actually a fact known from experience and for which we have some intuition. Consider a tennis racket; we identify three orthogonal axes: one parallel to its handle (1), another (3) perpendicular to its face, and finally (2) the only remaining possible axis orthogonal to the previous two. It's quite easy to throw the racket in the air and make it spin around axes (1) and (3) without having it spin around any other direction, but it's much harder to do the same for axis (2)&mdash;often it will also rotate halfway around the handle axis, so that when you catch it, it's the other face that's facing you.</p>
+
+<p>The theorem can be proved by simple considerations on conserved quantities, but it's interesting to investigate the system more closely too. With this, we discover some pretty exotic possible motions, such as the <b>Dzhanibekov effect</b>, the default setting in the simulator. Here the body starts spinning almost perfectly around the "unstable" axis (cos&nbsp;&theta; = 0.99997500); as predicted by the tennis racket theorem, the body will eventually drift away from this type of motion. But we see that more than that, it also does this in a pretty dramatic way: everything seems to be fine for several revolutions, until all of a sudden it flips over!&mdash;watch closely how black/white becomes white/black.</p>
+
+<p>This very weird motion is totally real, but don't take it from me; you can see it in this video from NASA below. The demonstration is even better because the shape of the body makes the flip impossible to miss.</p>
+
+<iframe src="https://commons.wikimedia.org/wiki/File:Dzhanibekov_effect.ogv?embedplayer=yes" width="512" height="288" frameborder="0" style="display:block; margin: 1em auto;"></iframe>
