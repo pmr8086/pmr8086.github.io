@@ -19,7 +19,7 @@
 
 </div>
 
-<img width="50%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/mosquito.jpg" />
+<img width="50%" src="figs/mosquito.jpg" />
 
 <p>So some time ago I took up this project of building one of those galvanometer based precision scales. As it turns out, it's not hard to build a device capable of measuring masses in the sub mg range, and even precisions on the order of the single &mu;gs should be possible. For reference, a cup of coffee contains about 100 mg of caffeine and a grain of rice weighs about 25 mg; that mosquito over there weighed in at 5.9 mg, and a single square mm piece of paper should weigh 75 &mu;g.</p>
 
@@ -30,13 +30,13 @@
 <table width="100%">
 	<tr>
 		<td>
-			<img width="100%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/galvanometro-inteiro1.jpg" />
+			<img width="100%" src="figs/galvanometro-inteiro1.jpg" />
 		</td>
 		<td>
-			<img width="100%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/galvanometro-nao-inteiro.jpg" />
+			<img width="100%" src="figs/galvanometro-nao-inteiro.jpg" />
 		</td>
 		<td>
-			<img width="100%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/galvanometro-nu.jpg" />
+			<img width="100%" src="figs/galvanometro-nu.jpg" />
 		</td>
 	</tr>
 </table>
@@ -44,16 +44,16 @@
 <table width="100%">
 	<tr>
 		<td>
-			<img width="100%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/base-cobre1.jpg" />
+			<img width="100%" src="figs/base-cobre1.jpg" />
 		</td>
 		<td>
-			<img width="100%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/base-com-pernas.jpg" />
+			<img width="100%" src="figs/base-com-pernas.jpg" />
 		</td>
 		<td>
-			<img width="100%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/galvanometro-e-base-pronto.jpg" />
+			<img width="100%" src="figs/galvanometro-e-base-pronto.jpg" />
 		</td>
 		<td>
-			<img width="100%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/galvanometro-e-base-pronto2.jpg" />
+			<img width="100%" src="figs/galvanometro-e-base-pronto2.jpg" />
 		</td>
 	</tr>
 </table>
@@ -65,7 +65,7 @@
 <p>This shutter piece business was a real source of problems at first. For example, restricting ourselves to the full-scale deflection current of 450 &mu;A, the galvanometer could raise less than 20 mg at most. With a single square cm piece of paper already weighing in at 7.5 mg, this was quite a restriction. Al foil was a promising candidate material, as it did block the beam (paper, on the other hand, was transparent to IR) and was very light (more than two times less dense than paper), but it was too fragile and in some ways too light (pieces made of it were too susceptible to wind currents). To further complicate things we also needed to make a tray for the objects, ideally with guardrails or something like that to prevent them from rolling off. Not to mention, both tray and shutter had to be attached well to the pointer, so as not to slip or rotate. The situation was really bad until I tried some styrofoam I had here, which turned out to be the perfect material. It blocked IR, was very light at a surpring 25 &mu;g / mm<sup>3</sup>, and still, unlike foil, very easy to work with and very "firm".</p>
 
 <video width="80%" controls>
-	<source src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/video-control-unstable.mp4" />
+	<source src="figs/video-control-unstable.mp4" />
 </video>
 
 <p>Another possible improvement is automating the current adjustment process, so the scale works entirely on its own. It looked like the highly nonlinear nature of the optical switch could complicate things here, but this turned out not to be the case at all, with a simple proportional controller already working. In the video above, the op-amp is in an open loop configuration, so there's too much feedback and the system oscillates, but reducing the gain of the op-amp stage to anywhere from &minus;10 to 30 dB usually stabilized the system. See the switch emitter voltage response to a disturbance for the resulting circuit below.</p>
@@ -80,14 +80,14 @@
 
 <p>Below is a picture of such a set up. In this case R<sub>1</sub> = 33 k&Omega; and R<sub>2</sub> = 330 k&Omega;. For Z<sub>2</sub> we have a single 47 k&Omega; resistor, and for Z<sub>1</sub> we only have that petrol blue resistor, which is 1 k&Omega;. In parallel with this last resistor we also have a series RC, which seems to be disconnected at the moment of the picture. Although this configuration favors higher frequencies and should in fact increase the noise, it did seem to allow me to increase the overall amount of feedback without destabilizing the circuit.</p>
 
-<img width="70%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/balanca-papelao.jpg" />
+<img width="70%" src="figs/balanca-papelao.jpg" />
 
 <p>With experiment we find that we raise roughly 35 &mu;g at the tip of the pointer per &mu;A through the coil. At R<sub>L</sub> = 10 k&Omega;, this corresponds to 3.5 &mu;g / mV. The most precise voltmeter we had at hand was an Arduino Uno; with an internal voltage reference of 1.1 V, we can expect a 1 mV ~ 3.5 &mu;g resolution. We can't really increase this by increasing R<sub>L</sub> since at the 3.5 V max. output of the LM358, with 10 k&Omega; we're already below the full-scale current. This is another advantage of having two amp stages then; by increasing Z<sub>2</sub> and decreasing R<sub>1</sub> by a similar factor, the overall behavior of the circuit is unchanged (disregarding the fact that the first amp saturates earlier), but at the output of the first amp we have an amplified version of the control signal, increasing our max. resolution.</p>
 
 <p>In the video below we see the scale in action. In this set up we have R<sub>1</sub> = 100 k&Omega;, R<sub>2</sub> = Z<sub>2</sub> = 330 k&Omega;, and Z<sub>1</sub> = 47 k&Omega;. The object there is a roughly 4 mm<sub>2</sub> piece of paper.</p>
 
 <video width="80%" controls>
-	<source src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/pesando-curto.mp4" />
+	<source src="figs/pesando-curto.mp4" />
 </video>
 
 <p>For calibration of the scale, we used small pieces of paper of known gramature as reference weights. Here are some results of the measured mass / voltage ratio, in &mu;g / mV.</p>
@@ -131,12 +131,12 @@ Std dev:	0.16
 
 <p>However, we got a couple of them killed at some point (on an accident unrelated to the chilling) and so we weighed those instead, and set the other free. I think it was less than a day between them dying and us weighing them, so I'm not sure to what extent they were dry when we weighed them. In any case, the masses we found differed somewhat from the figures we found online: 300 &mu;g for a dry fly, and 1.0 mg for a not-dry one. On the other hand, the flies we did weigh seemed to be small ones (2.0 mm from head to butt; some other fruit flies we found were almost twice that).</p>
 
-<img width="80%" src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/mosca-no-prato-g5.jpg" />
+<img width="80%" src="figs/mosca-no-prato-g5.jpg" />
 
 <p>Although we didn't manage to weigh the flies alive, we did get some cool footage of them. Here's one of them waking up after being chilled.</p>
 
 <video width="80%" controls>
-	<source src="https://media.githubusercontent.com/media/pmr8086/pmr8086.github.io/main/scale/figs/Video_Mosca_Kaolha_We.mp4" />
+	<source src="figs/Video_Mosca_Kaolha_We.mp4" />
 </video>
 
 <p>It was really interesting to weigh these small objects. I'd have brushed them all off as weighing "very little", but it really puts things in perspective to see how there's, roughly, 10 eyelashes in a fruit fly, 10 fruit flies in a mosquito, and 10 mosquitos in a water drop. Another object that would be interesting to weigh would be a feather.</p>
