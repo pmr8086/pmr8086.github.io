@@ -90,10 +90,10 @@ kHz		&Omega;		mH
 
 <p>Now I placed the coil in series with a 10 k&Omega; resistor, applied a 500 mV step to the circuit, and measured the voltage across the coil; the result is the picture in the top left. I didn't like it that much, and so I added a 10 nF cap in parallel with the coil to make things smoother, resulting in the remaining three pictures.</p>
 
-<p>From the knowledge that the height of the step is 500 mV &times; 400 &Omega; 10400 &Omega; = 500 mV / 26 = 19.23 mV, and that in the last (bottom right) picture there is 10 &mu;s per horizontal division, we find the following expression for the voltage $y$ across the coil as a function of time:
+<p>From the knowledge that the height of the step is 500 mV &times; 400 &Omega; / 10400 &Omega; = 500 mV / 26 = 19.23 mV, and that in the last (bottom right) picture there is 10 &mu;s per horizontal division, we find the following expression for the voltage $y$ across the coil as a function of time:
 
 $$
-y(t) = 19.23\,{\rm mV} \cdot (1 + 1.26 \cdot e^{-t\cdot 30\,{\rm kHz}}-2.26 e^{-t\cdot122\,{\rm kHz}})
+y(t) = 19.23\,{\rm mV} \cdot (1 + 1.26 \cdot e^{-t\cdot 30\,{\rm krad/s}}-2.26 \cdot e^{-t\cdot122\,{\rm krad/s}})
 $$
 
 This expression can be found for example by looking at the coordinates of the critical point $\dot y=0$. Now take the Laplace transform and divide both sides by the transformed input step
@@ -105,8 +105,8 @@ $$
 to obtain
 
 \begin{align}
-T(s) = \frac{Y(s)}{X(s)} &amp;= \frac1{26}\cdot\left(1+\frac{1.26s}{s+30\,{\rm kHz}}-\frac{2.26s}{s+122\,{\rm kHz}}\right) \\
-&amp;= \frac{(9.15\,{\rm kHz})(s+15.38\,{\rm kHz})}{(s+30\,{\rm kHz})(s+122\,{\rm kHz})}
+T(s) = \frac{Y(s)}{X(s)} &amp;= \frac1{26}\cdot\left(1+\frac{1.26s}{s+30\,{\rm krad/s}}-\frac{2.26s}{s+122\,{\rm krad/s}}\right) \\
+&amp;= \frac{(9.15\,{\rm krad/s})(s+15.38\,{\rm krad/s})}{(s+30\,{\rm krad/s})(s+122\,{\rm krad/s})}
 \end{align}
 
 Now, to get the galvanometer's impedance $Z$, write
@@ -132,7 +132,7 @@ Z' = \frac R{\frac1T-1}
 $$
 
 $$
-Z = 1.08\,{\rm k\Omega} \cdot \frac{(1 \,{\rm MHz})(s+15.38\,{\rm kHz})}{(s+1.49\,{\rm MHz})(s+28\,{\rm kHz})}
+Z = 1.08\,{\rm k\Omega} \cdot \frac{(1 \,{\rm Mrad/s})(s+15.38\,{\rm krad/s})}{(s+1.49\,{\rm Mrad/s})(s+28\,{\rm krad/s})}
 $$
 
 It can be seen now how $Z$ cannot be realized by a series RL in parallel with a series RC nor a series RL in parallel with a cap either, for example. The former has two (finite) zeros, as opposed to one for $Z$, and in the latter, the two zeros must be additive inverses of one another. The following expression may be found, however
