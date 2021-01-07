@@ -176,4 +176,53 @@ which does suggest a circuit equivalent. It would be interesting to see if this 
 
 <img width="75%" src="figs/galvanom-Z-vs-experiment.png" />
 
-<p>I'd say that's a good agreement.</p>
+<p>I'd say that's a good agreement, even moreso when considering how indirect our measurement was.</p>
+
+<p>We notice though that the approximation $Z = 400 \,\rm\Omega$ is good until about 1 kHz; and at these and higher frequencies, the spring should not respond at all in any case.</p>
+
+<h4>Optical Switch</h4>
+
+<p>To measure the behavior of the optical switch, we run a slowly varying current through the coil, so that both the coil and the spring have time to respond.</p>
+
+<img width="75%" src="figs/opto.png" />
+
+<p>The key takeaway here is that we have a roughly 10-&mu;A-wide linear window (in terms of $i_{\rm coil}$ swing) (from later coil current &times; deflection measurements, this can be seen to correspond to about 0.75 mm), inside of which 
+
+$$
+A = \frac{\Delta i_{\rm photo}}{\Delta i_{\rm coil}} \approx 60 \,\rm A/A
+$$
+</p>
+
+<h4>Pointer &amp; Spring</h4>
+
+<p>The mechanical portion of the system can reasonably be considered to de a damped harmonic oscillator; like in the case of the coil then, all the information will be contained in its step response.</p>
+
+<p>On driving the system with small steps we find that the system is underdamped. In this case the frequency response can easily be estimated by looking at the critical points; from the distance between critical points we can deduce the oscillation frequency $\omega_0$ (imaginary part of pole), and from their heights, the decay constant $\lambda$ ((negative of) real part of pole). Further from mechanical considerations we see that for our system we have a critical point at $t=0$, and it is analogous to a series RLC circuit. In that case we have
+
+$$
+y(t) = A\left( 1 - \frac{e^{-\lambda t}\sin(\omega_0 t + \phi_0)}{\sin\phi_0}\right)
+\qquad
+\phi_0 = \tan^{-1}\frac{\omega_0}\lambda
+\qquad
+T(s) = A\frac{\lambda^2 + \omega_0^2}{(s-\lambda)^2+\omega_0^2}
+$$
+
+<iframe width="100%" height="315" style="border: none; display: block;" src="figs/mola-step-resp.html"></iframe>
+
+<p>During this measurement in particular there was a lot of electrical noise in the circuit, and so all of the frequencies other than multiples of the fundamental &half; Hz were filtered out first, and then an approximant was sought for the filtered data. Here in particular we found for the poles
+
+$$
+{{\lambda = 13.5}
+\atop
+{\omega_0 = 2\pi \cdot4.65}}
+\qquad
+({\rm s^{-1}})
+$$
+
+The data here was collected with the Arduino (as opposed to the scope), and in this "digital" format then, maybe there were better ways of finding the poles. For example, we could compare the Fourier coefficients of the data with those of a pure square wave; the ratio between the two gives the value of the system transfer function at the frequencies in question, which might be a better dataset to fit our curves to. Below then we have plotted the data extrapolated from the filtered samples then, compared to the transfer function implied by the approximant.</p>
+
+<img width="75%" src="figs/mola-freq-resp.svg" />
+
+<p>The main problem with these measurements was lack of repeatability. Within one battery of tests the step responses all looked the same, but for measurements in different days or weeks, they varied quite a bit. I didn't really look into that (the data discussed above came from the first earnest measurement of the spring step response), mostly observed over the course of dealing with the system, but I'd say a &pm; 20% variability in $\lambda,\omega_0$, to be safe. That might be enough to start with, but I'd like to identify and then correct for the sources of this variability.</p>
+
+<p>The easiest candidate would be the different shutter pieces and their different masses, which do affect the poles. Another easy one would be the nonlinearity in the optical switch; in the previous experiment, the photocurrent varied between 140 and 180 &mu;A roughly, which although not right in the middle of the linear region of the curve, seems to be in a linear enough region. A potentially difficult one would be the inherent nonlinearities in the dynamics of the system: the back EMF and the torque due to gravity depend on a trigonometric function of the deflection.</p>
