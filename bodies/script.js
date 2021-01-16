@@ -477,41 +477,46 @@ Camera.prototype.update = function () {
 
 /** 7 - DRAG **/
 
-var X0, Y0, CV0, ALT, WAS_PLAYING;
+var X0, Y0, CV0, ALT, WAS_PLAYING,
+	IS_DRAGGING = false;
 
-canvas.addEventListener("dragstart", function (evt) {
+canvas.addEventListener("mousedown", function (evt) {
 	X0 = evt.x; Y0 = evt.y;
 	CV0 = camera.view;
 	ALT = evt.altKey;
 	WAS_PLAYING = NOW_PLAYING;
 	NOW_PLAYING = true;
+	IS_DRAGGING = true;
 	loop();
 });
-canvas.addEventListener("drag", function (evt) {
-	var transl_factor = 250, angle_factor = 2;
-	if (ALT) {
-		camera.view = mul(transl(
-				(evt.x - X0)/transl_factor,
-				-(evt.y - Y0)/transl_factor,
-				0.
-			), CV0)
-	} else {
-		let dx = CV0.matrix[12],
-			dy = CV0.matrix[13],
-			dz = CV0.matrix[14],
-			CV = new Transform(CV0.matrix),
-			DX = evt.x - X0,
-			DY = evt.y - Y0;
-		CV.transl(-dx,-dy,-dz);
-		CV = mul(rot(sqrt(DX*DX + DY*DY)/angle_factor, [DY, DX, 0.]), CV);
-		CV.transl(dx, dy, dz);
-		camera.view = CV;
-		
+canvas.addEventListener("mousemove", function (evt) {
+	if (IS_DRAGGING){
+		var transl_factor = 250, angle_factor = 2;
+		if (ALT) {
+			camera.view = mul(transl(
+					(evt.x - X0)/transl_factor,
+					-(evt.y - Y0)/transl_factor,
+					0.
+				), CV0)
+		} else {
+			let dx = CV0.matrix[12],
+				dy = CV0.matrix[13],
+				dz = CV0.matrix[14],
+				CV = new Transform(CV0.matrix),
+				DX = evt.x - X0,
+				DY = evt.y - Y0;
+			CV.transl(-dx,-dy,-dz);
+			CV = mul(rot(sqrt(DX*DX + DY*DY)/angle_factor, [DY, DX, 0.]), CV);
+			CV.transl(dx, dy, dz);
+			camera.view = CV;
+			
+		}
+		camera.update();
 	}
-	camera.update();
 });
-canvas.addEventListener("dragend", function () {
+canvas.addEventListener("mouseup", function () {
 	NOW_PLAYING = WAS_PLAYING;
+	IS_DRAGGING = false;
 })
 
 canvas.addEventListener("touchstart", function (evt) {
