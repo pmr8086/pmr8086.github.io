@@ -41,9 +41,9 @@ $$
 and so with $\omega_3\equiv\omega_{03}$ (constant), the other two equations become
 
 $$
-\dot\omega_1 = \Omega\omega_1
+\dot\omega_1 = \Omega\omega_2
 \qquad
-\dot\omega_2 = -\Omega\omega_2
+\dot\omega_2 = -\Omega\omega_1
 $$
 
 where
@@ -238,7 +238,7 @@ $$
 \frac{\pi/2}{M(a,b)}= I(a,b)\equiv\int_0^{\pi/2}\frac{d\phi}{\sqrt{a^2\cos^2\phi+b^2\sin^2\phi}} = \frac{K(\sqrt{1-b^2/a^2})}a
 $$
 
-This can be proved by showing that the integral, like the AGM, is invariant under the substitution $a_n,b_n\to a_{n+1},b_{n+1}$. That is, if we have
+This can be proven by showing that the integral, like the AGM, is invariant under the substitution $a_n,b_n\to a_{n+1},b_{n+1}$. That is, if we have
 
 $$
 I(a_n,b_n) = I(a,b) = I\left(\frac{a+b}2,\sqrt{ab}\right) = I(a_{n+1},b_{n+1})
@@ -431,7 +431,7 @@ function am(u, k) {
 }
 </pre>
 
-<p>In practice, it's useful to use the parity of the function to avoid negative argument values, and the quasi-periodicity to avoid large argument values. The inverse angle transformation is also a potential source of problems with the arc tangent functions. Also, since $k$ is constant through the motion, the product $\prod_n\frac{1+k_n}2$ only needs to be computed once.</p>
+<p>In practice, it's convenient to use the parity of the function to avoid negative argument values, and the quasi-periodicity to avoid large argument values. The inverse angle transformation is also a potential source of problems with the arc tangent functions. Also, since $k$ is constant through the motion, the product $\prod_n\frac{1+k_n}2$ only needs to be computed once.</p>
 
 <hr>
 
