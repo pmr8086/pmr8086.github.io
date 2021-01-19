@@ -23,17 +23,17 @@
 
 <p>For us to be able to fine tune the controller, we need to know more about the system we're trying to control in the first place.</p>
 
-<h4>Coil Frequency Response</h4>
+<h4>Coil</h4>
 
 <p>The galvanometer coil DC resistance had been measured to be 400 &Omega;. But it could be useful to know its inductance too. This was my first choice of measurement since it seemed to be pretty easy, and for some reason I expected it to be significant. Ultimately though the opposite was the case; it took me a while to get it right (pretty frustrating), and the corrections obtained are negligible for our purposes.</p>
 
-<p>First I regarded the coil as a resistance $R$ in series with an inductance $L$. The value of $R$ we knew to be 400 &Omega; from DC measurements. If we placed the coil in series with a known test resistance $R_{\rm test}$, then at frequency $\nu$, we'd have
+<p>First I regarded the coil as a resistance $R = 400\,\Omega$ in series with an unknown inductance $L$. If we placed the coil in series with a known test resistance $R_{\rm test}$, then at frequency $\nu$, we'd have
 
 $$
 |Z|^2 = (R+R_{\rm test})^2 + (2\pi\nu L)^2
 $$
 
-where $Z$ is the impedance of the whole circuit. If the circuit is driven by a voltage $V$ at frequency $\nu$, and $V_{\rm test}$ is the voltage across the test resistor, then
+where $Z$ denotes the impedance of the whole circuit. If the circuit is driven by a voltage $V$ at frequency $\nu$, and $V_{\rm test}$ is the voltage across the test resistor, then
 
 $$
 |Z| = \frac{|V|}{|I|} = \frac{|V|}{|V_{\rm test}|}R_{\rm test}
@@ -66,7 +66,7 @@ This was appropriate because only one channel in the oscilloscope was working, a
 kHz		&Omega;		mH
 </pre>
 
-<p>Clearly something's wrong. I performed several such measurements, with frequencies ranging from 100s of Hz to a few MHz, with different values for $R_{\rm test}$, and later then even other circuit arrangements, until I gave up on this "series RL" model for the coil. I briefly considered other coil models (one with a parallel capacitor to account for winding capacitance for example), but then I realized we didn't really need any model; we could just regard the coil as an "abstract" 2nd order system. And, even more importantly, we just had to measure its step response to deduce all its properties.</p>
+<p>Clearly something's wrong. I performed several such measurements, with frequencies ranging from 100s of Hz to a few MHz, with different values for $R_{\rm test}$, and later then even other circuit arrangements, until I gave up on this "series RL" model for the coil. I briefly considered other coil models (one with a parallel capacitor to account for winding capacitance for example), but then I realized we didn't really need any model; we could just regard the coil as an "abstract" (2nd order) system. And, even more importantly, we just had to measure its step response to deduce all its properties.</p>
 
 <table width="100%">
 	<tr>
@@ -90,7 +90,7 @@ kHz		&Omega;		mH
 
 <p>Now I placed the coil in series with a 10 k&Omega; resistor, applied a 500 mV step to the circuit, and measured the voltage across the coil; the result is the picture in the top left. I didn't like it that much, and so I added a 10 nF cap in parallel with the coil to make things smoother, resulting in the remaining three pictures.</p>
 
-<p>From the knowledge that the height of the step is 500 mV &times; 400 &Omega; / 10400 &Omega; = 500 mV / 26 = 19.23 mV, and that in the last (bottom right) picture there is 10 &mu;s per horizontal division, we find the following expression for the voltage $y$ across the coil as a function of time:
+<p>From the knowledge that the height of the step is 500 mV &times; 400 &Omega; / 10400 &Omega; = 500 mV / 26 = 19.23 mV, and that in the last (bottom right) picture there is 10 &mu;s / div., we find the following expression for the voltage $y$ across the coil as a function of time:
 
 $$
 y(t) = 19.23\,{\rm mV} \cdot (1 + 1.26 \cdot e^{-t\cdot 30\,{\rm krad/s}}-2.26 \cdot e^{-t\cdot122\,{\rm krad/s}})
@@ -135,7 +135,7 @@ $$
 Z = 1.08\,{\rm k\Omega} \cdot \frac{(1 \,{\rm Mrad/s})(s+15.38\,{\rm krad/s})}{(s+1.49\,{\rm Mrad/s})(s+28\,{\rm krad/s})}
 $$
 
-It can be seen now how $Z$ cannot be realized by a series RL in parallel with a series RC nor a series RL in parallel with a cap either, for example. The former has two (finite) zeros, as opposed to one for $Z$, and in the latter, the two zeros must be additive inverses of one another. The following expression may be found, however
+Notice how $1/Z$ possesses a pole at infinity, corresponding to a parallel cap. Removing this additive factor, the remainder can be decomposed into partial fractions to yield
 
 $$
 \frac1Z = \frac1{720\,{\rm\Omega}} + \frac1{890\,{\rm\Omega}+s\cdot58\,{\rm mH}}+s\cdot926\,{\rm pF}
@@ -195,21 +195,21 @@ $$
 
 <h4>Pointer &amp; Spring</h4>
 
-<p>The mechanical portion of the system can reasonably be considered to de a damped harmonic oscillator; like in the case of the coil then, all the information will be contained in its step response.</p>
+<p>The mechanical portion of the system can reasonably be considered to de a damped harmonic oscillator; like in the case of the coil then, the step response contains the information we want.</p>
 
-<p>On driving the system with small steps we find that the system is underdamped. In this case the frequency response can easily be estimated by looking at the critical points; from the distance between critical points we can deduce the oscillation frequency $\omega_0$ (imaginary part of pole), and from their heights, the decay constant $\lambda$ ((negative of) real part of pole). Further from mechanical considerations we see that for our system we have a critical point at $t=0$, and it is analogous to a series RLC circuit. In that case we have
+<p>On driving the system with small steps we find that the system is underdamped. In this case the frequency response can easily be estimated by looking at the critical points $\dot y = 0$; from the distance between critical points we can deduce the oscillation frequency $\omega_0$, and from their heights, the decay constant $\lambda$ (the critical points lie on the exponential envelope). Further from mechanical considerations we see that for our system we have a critical point at $t=0$, and it is analogous to a series RLC circuit. In that case we have
 
 $$
 y(t) = A\left( 1 - \frac{e^{-\lambda t}\sin(\omega_0 t + \phi_0)}{\sin\phi_0}\right)
 \qquad
 \phi_0 = \tan^{-1}\frac{\omega_0}\lambda
 \qquad
-T(s) = A\frac{\lambda^2 + \omega_0^2}{(s-\lambda)^2+\omega_0^2}
+T(s) = A\frac{\lambda^2 + \omega_0^2}{(s+\lambda)^2+\omega_0^2}
 $$
 
 <iframe width="100%" height="315" style="border: none; display: block;" src="figs/mola-step-resp.html"></iframe>
 
-<p>During this measurement in particular there was a lot of electrical noise in the circuit, and so all of the frequencies other than multiples of the fundamental &half; Hz were filtered out first, and then an approximant was sought for the filtered data. Here in particular we found for the poles
+<p>During this measurement in particular there was a lot of electrical noise in the circuit, and so all of the frequencies other than multiples of the fundamental &half; Hz were filtered out before curve fitting. Here in particular we found
 
 $$
 {{\lambda = 13.5}
@@ -219,10 +219,6 @@ $$
 ({\rm s^{-1}})
 $$
 
-The data here was collected with the Arduino (as opposed to the scope), and in this "digital" format then, maybe there were better ways of finding the poles. For example, we could compare the Fourier coefficients of the data with those of a pure square wave; the ratio between the two gives the value of the system transfer function at the frequencies in question, which might be a better dataset to fit our curves to. Below then we have plotted the data extrapolated from the filtered samples then, compared to the transfer function implied by the approximant.</p>
+The data here was collected with the Arduino (as opposed to the scope), and in this "digital" format then, maybe there were better ways of finding the poles. For example the Fourier coefficients of the data divided by those of a pure square wave would give the values of the transfer function at those frequencies, what might be a better dataset to fit our curves to. Here's the fit we found earlier from this angle.</p>
 
 <img width="75%" src="figs/mola-freq-resp.svg" />
-
-<p>The main problem with these measurements was lack of repeatability. Within one battery of tests the step responses all looked the same, but for measurements in different days or weeks, they varied quite a bit. I didn't really look into that (the data discussed above came from the first earnest measurement of the spring step response), mostly observed over the course of dealing with the system, but I'd say a &pm; 20% variability in $\lambda,\omega_0$, to be safe. That might be enough to start with, but I'd like to identify and then correct for the sources of this variability.</p>
-
-<p>The easiest candidate would be the different shutter pieces and their different masses, which do affect the poles. Another easy one would be the nonlinearity in the optical switch; in the previous experiment, the photocurrent varied between 140 and 180 &mu;A roughly, which although not right in the middle of the linear region of the curve, seems to be in a linear enough region. A potentially difficult one would be the inherent nonlinearities in the dynamics of the system: the back EMF and the torque due to gravity depend on a trigonometric function of the deflection.</p>
