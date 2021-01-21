@@ -14,7 +14,18 @@ pre {
 	tab-size: 4;
 }
 code {
-	backgroudn-color: LightGrey;
+	background-color: LightGrey;
+}
+td, th {
+	border: 1pt solid black;
+	margin: 0em;
+	padding: .25em;
+	text-align: center;
+}
+.figures td {
+	border: none;
+	margin: 0;
+	padding: 0;
 }
 #sidebar {
 	position: absolute;
