@@ -209,7 +209,7 @@ which does suggest a circuit equivalent. It would be interesting to see if this 
 
 <p>Here's a plot:</p>
 
-<img width="75%" src="figs/galvanom-Z.png" />
+<img width="75%" src="figs/galvanom-Z.svg" />
 
 
 <p>At this point it's interesting to test the formula obtained for $Z$ against our experiments. For example, below we have compared the values of $|330\,\Omega+Z|$ calculated from the formula and obtained from the experiment we mentioned earlier.</p>
@@ -330,18 +330,21 @@ which does suggest a circuit equivalent. It would be interesting to see if this 
 
 <p>To measure the behavior of the optical switch, we run a slowly varying current through the coil, so that both the coil and the spring have time to respond.</p>
 
-<img width="75%" src="figs/opto.png" />
+<img width="75%" src="figs/opto.svg" />
 
-<p>The key takeaway here is that we have a roughly 10-&mu;A-wide linear window (in terms of $i_{\rm coil}$ swing) (from later coil current &times; deflection measurements, this can be seen to correspond to about 0.75 mm), inside of which 
+<p>The key takeaway here is that we have a roughly 10-&mu;A-wide linear window (in terms of $i_L$ swing) (from later coil current &times; deflection measurements, this can be seen to correspond to about 0.75 mm), inside of which 
 
 $$
-A = \frac{\Delta i_{\rm photo}}{\Delta i_{\rm coil}} \approx 60 \,\rm A/A
+A = \frac{\Delta i_\gamma}{\Delta i_L} \approx 55 \,\rm A/A
 $$
+
+A pretty good fit can be found in terms of the hyperbolic tangent too, which could be used to correct for measurements near different operating points.</p>
+
 </p>
 
 <h4>Pointer &amp; Spring</h4>
 
-<p>The mechanical portion of the system can reasonably be considered to de a damped harmonic oscillator; like in the case of the coil then, the step response contains the information we want.</p>
+<p>The mechanical portion of the system can reasonably be considered to be a damped harmonic oscillator; like in the case of the coil then, the step response contains the information we want.</p>
 
 <p>On driving the system with small steps we find that the system is underdamped. In this case the frequency response can easily be estimated by looking at the critical points $\dot y = 0$; from the distance between critical points we can deduce the oscillation frequency $\omega_0$, and from their heights, the decay constant $\lambda$ (the critical points lie on the exponential envelope). Further from mechanical considerations we see that for our system we have a critical point at $t=0$. In that case we have
 
@@ -355,7 +358,7 @@ $$
 
 <iframe width="100%" height="315" style="border: none; display: block;" src="figs/mola-step-resp.html"></iframe>
 
-<p>We could use the information from the previous measurements to correct for the nonlinearity in the optical switch, but I didn't bother with it; I think <i>i</i><sub>photo</sub> here varied between 140 and 180 &mu;A, which is not right in the middle of the linear region, but still, not that bad. There was also a lot of noise during this particular measurement; my first course of action was removing all frequencies that couldn't have been in the driving &half; Hz square wave in the first place (a linear system doesn't introduce new frequencies). All that jaggedness though, it was due to an odd peak at 73.5 Hz, which I removed manually.</p>
+<p>We could use the information from the previous measurements to correct for the nonlinearity in the optical switch, but I didn't bother with it; I think $i_\gamma$ here varied between 140 and 180 &mu;A, which is not right in the middle of the linear region, but still, not that bad. There was also a lot of noise during this particular measurement; my first course of action was removing all frequencies that couldn't have been in the driving &half; Hz square wave in the first place (a linear system doesn't introduce new frequencies). All that jaggedness though, it was due to an odd peak at 73.5 Hz, which I removed manually.</p>
 
 <p>Anyway, we find</p>
 

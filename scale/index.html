@@ -58,17 +58,23 @@
 	</tr>
 </table>
 
-<p>This was how Schmermund's own scale worked, and at this point he was already talking single &mu;gs. He adjusted the position of the pointer by eye, but there's no reason not to use an electronic sensor; the popular choice here is the slotted optical switch. On the pointer tip we place a piece of opaque material, parallel to the plane of rotation, to act as a shutter, going into the slot and interrupting the beam if the pointer hangs too low. The beams in these devices are usually around a mm thick, often less than that. Even moreso, within this mm the photocurrent varies relatively linearly, and so we can adjust the position of the pointer really finely.</p>
+<p>This was how Schmermund's own scale worked, and at this point he was already talking single &mu;gs. He adjusted the position of the pointer by eye, but it's probably better to use an electronic sensor; the popular choice here is the slotted optical switch. On the pointer tip we place a piece of opaque material, parallel to the plane of rotation, to act as a shutter, going into the slot and interrupting the beam if the pointer hangs too low. The beams in these devices are usually around a mm thick, often less than that. Even moreso, within this mm the photocurrent varies relatively linearly, and so we can adjust the position of the pointer really finely.</p>
 
-<p>Making this shutter (and tray) was a major headache at first. For one example, restricting ourselves to the full-scale deflection current &approx; 0.5 mA, the galvanometer could raise less than 20 mg; with a single square cm piece of paper already weighing in at 7.5 mg, this was quite a restriction. We went through several designs until we found some styrofoam here which ended up being the perfect material. It was surprisingly light at 25 &mu;g / mm<sup>3</sup>, easy to machine, and very sturdy (when compared to materials like paper and Al foil, of course).</p>
+<p>Making this shutter &amp; tray piece was a major headache at first. For one example, restricting ourselves to the full-scale deflection current &approx; 0.5 mA, the galvanometer could raise less than 20 mg; with a single square cm piece of paper already weighing in at 7.5 mg, this was quite a restriction. We went through several designs until we found some styrofoam here which ended up being the perfect material. It was surprisingly light at 25 &mu;g / mm<sup>3</sup>, easy to machine, and very sturdy (when compared to materials like paper and Al foil, of course).</p>
+
+<p>Another possible improvement then is automating the current adjustment process, so that the scale works entirely on its own. The simplest way to do this is with a negative feedback loop: if the pointer is lowered, the output of the sensor decreases, and we make it so that this causes an increase in the coil current, so that the pointer is raised. See the figure below for example.</p>
+
+<img width="50%" src="figs/ckt1.png" />
+
+<p>Suppose the current out of the sensor varies by an amount &Delta;<i>i</i><sub>&gamma;</sub>. The op-amp draws no current, and so all of this current will go through the resistor R; further, the voltage at the op-amp input terminals remains constant (adjusted by the pot, and setting the bias current through the coil), and so the voltage at the op-amp output terminal varies by an amount &minus;R&thinsp;&Delta;<i>i</i><sub>&gamma;</sub>, consequently varying the coil current by an amount &Delta;<i>i</i><sub>L</sub> = &minus;(R/R<sub>L</sub>)&thinsp;&Delta;<i>i</i><sub>&gamma;</sub>.</p>
 
 <video width="80%" controls>
 	<source src="figs/video-control-unstable.mp4" />
 </video>
 
-<p>Another possible improvement then is automating the current adjustment process, so that the scale works entirely on its own. The simplest way to do this is with a negative feedback loop: if the pointer is lowered, the output of the switch decreases, and we make it so that this causes an increase in the coil current, so that the pointer is raised. Of course, there's a little more to it than that; in the video above for example, we see that if the system responds too strongly to pointer deflections (we have an op amp in open loop there), we get some oscillation instead of convergence to equilibrium. Nonetheless, with this strategy alone we already manage to get a precision on the order of 10 &mu;g. It turned out not to be that hard to find appropriate levels of feedback; empirically the best (not too jumpy, not too leisurely) values were <i>&beta;</i> &approx; 0.5 (<i>i</i><sub>coil</sub>/<i>i</i><sub>photo</sub>), but even in varying this by an order of magnitude the system remained quite stable.</p>
+<p>Not every value for R/R<sub>L</sub> works as well though. For example, too little, and there is no correction. But too much and the scale gets too jumpy and jitters instead of converging to the static equilibrium, as in the video above. In the end though, it wasn't hard to find what appropriate values were; indeed the system seemed to tolerate a very wide range of values before starting to oscillate. But values in the 0.5&ndash;1.0 range worked best.</p>
 
-<p>In the image below for example we see how the switch output typically responds to a disturbance. And in the video (taken on a different occasion) we see the scale in action; here we are weighing a roughly 4 mm<sup>2</sup> &approx; 300 &mu;g piece of paper. On the screen we see the coil current.</p>
+<p>In the image below we see the sensor output response to a weight placed on the pointer. And in the video (taken on a different occasion) we see the scale in action; here we are weighing a roughly 4 mm<sup>2</sup> &approx; 300 &mu;g piece of paper. On the screen we see the coil current.</p>
 
 <img width="100%" src="figs/step-resp-blc-2.png" />
 
@@ -76,11 +82,11 @@
 	<source src="figs/pesando-curto.mp4" />
 </video>
 
-<p>More precision requires more work though. This rudimentary control system for example seems to increase the susceptibility of the system to noise like wind currents: the switch output is noisier than when compared to a system driven by a constant (uncontrolled) current on the coil. I played around with filters and the like but wasn't able to consistently reduce the noise, so I figured we'd have to be a little more quantitative. I carried out a bunch of measurements of system parameters first of all, so that we'd know what we were dealing with, but didn't get around to putting everything together (yet).</p>
+<p>With this we already see a precision on the order of 10 &mu;g. Though this rudimentary controller seems to actually make the system more susceptible to noise like wind currents: the sensor output jitters more than when the system is just driven by a constant (uncontrolled) coil current. We could maybe filter out this noise digitally, but I wanted to try and improve the controller. So I performed some measurements on the system, so that we'd know what we were trying to control, and tried reading up a little on control systems, but I haven't gotten around to actually putting it all together yet.</p>
 
 <hr>
 
-<p>Anyway&hellip; For calibration of the scale, we used small pieces of paper of known gramature as reference weights. Paper was taken from different sources to combat any possible bias in our references. Here are some results.</p>
+<p>Anyway&hellip; For calibration of the scale, we used small pieces of paper of known gramature as reference weights. Paper was taken from different sources to combat any possible bias in our references. Also we did try test weights from roughly 1 to 100 mm<sup>2</sup> to verify the linearity of the scale. Here are some results. </p>
 
 <pre>
 (&mu;g / &mu;A)
@@ -117,7 +123,7 @@ Std dev:	 1.7
 	</tr>
 </table>
 
-<p>Really weighing the eyelash was a little beyond the limits of the scale I'd say. The noise in the circuit amounted to a little over 5 &mu;g, which represented a significant proportion of its weight. Still, repeated measurements yielded values between 35&ndash;45 &mu;g.</p>
+<p>Really weighing the eyelash was a little beyond the current limits of the scale I'd say. The noise in the circuit amounted to a little over 5 &mu;g, which represented a significant proportion of its weight. Still, repeated measurements yielded values between 35&ndash;45 &mu;g.</p>
 
 <p>About the fruit flies. We wanted to weigh them alive. We caught a bunch of them, and succeeded in immobilizing them by chilling them; this is done by placing them in the freezer for about a minute (up to two minutes for some individuals). After removing them from the freezer, they remain in this dormant state for about 30 seconds before waking up. But they can be kept dormant for several minutes (without killing them) by placing them on a chilled (~ 0 &deg;C) surface, like a block of ice covered by a paper towel.</p>
 
@@ -130,5 +136,3 @@ Std dev:	 1.7
 <video width="80%" controls>
 	<source src="figs/Video_Mosca_Kaolha_We.mp4" />
 </video>
-
-<p>It was really interesting to weigh these small objects. I'd have brushed them all off as weighing "very little", but it really puts things in perspective to see how there's, roughly, 10 eyelashes in a fruit fly, 10 fruit flies in a mosquito, and 10 mosquitos in a water drop. Another object that would be interesting to weigh would be a feather.</p>
